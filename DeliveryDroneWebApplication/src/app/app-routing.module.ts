@@ -12,7 +12,8 @@ const routes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
-  }];
+  },
+  { path: 'orders', loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule) }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
