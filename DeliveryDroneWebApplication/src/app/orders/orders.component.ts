@@ -37,7 +37,8 @@ export class OrdersComponent implements OnInit {
   }
 
   addOrder(){
-
+    const orderFormData = this.orderFormGroup.value;
+    console.log('This is the name: ' + orderFormData.order);
   }
 
 }
