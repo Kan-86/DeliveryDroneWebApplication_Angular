@@ -1,1 +1,27 @@
-<p>orders works!</p>
+<div fxLayout="column"
+     fxFill
+     fxLayoutGap="10px">
+  <div fxLayout="row">
+    <button routerLink="/" mat-mini-fab mat-raised-button color="primary"><<</button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center top">
+    <mat-card class="back" fxFlex="33">
+      <form class="back"[formGroup]="orderFormGroup" (ngSubmit)="addOrder()">
+        <div  fxLayout="column">
+          <h1>Profile</h1>
+          <h4 class="back">Username</h4>
+          <mat-form-field class="back">
+            <input class="form-control" type="username" matInput placeholder="Order">
+          </mat-form-field>
+          <h4>Email</h4>
+          <mat-form-field>
+            <input class="form-control" type="email" matInput placeholder="Address">
+          </mat-form-field>
+
+        </div>
+        <button mat-button mat-raised-button type="submit">Save</button>
+        <button mat-button mat-raised-button routerLink="/subscriptions">Back</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

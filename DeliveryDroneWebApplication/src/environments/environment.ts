@@ -3,7 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  usernameMinLength:  8,
+  usernameMaxLength:  16,
+  // Password
+  passwordMinLength: 10,
+  passwordMaxLength: 30,
+  // Email
+  emailMinLength: 5,
+  emailMaxLength: 50,
+  // date
+  minDate: new Date(),
+  maxDate: new Date(new Date().setMonth(new Date().getMonth() + 60)),
+  startDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
 };
 
 /*
