@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { OrderModel } from '../models/order-model';
 import { Router } from '@angular/router';
+import { OrderService } from '../shared/service/order.service';
+import { OrderModel } from '../shared/models/order-model';
 
 @Component({
   selector: 'app-orders',
@@ -21,7 +22,8 @@ export class OrdersComponent implements OnInit {
   orders: OrderModel;
 
   constructor(private fb: FormBuilder,
-              private router: Router,) {
+              private router: Router,
+              private orderService: OrderService) {
     this.orderFormGroup = new FormGroup({
       order: new FormControl(''),
       address: new FormControl('')
@@ -38,6 +40,12 @@ export class OrdersComponent implements OnInit {
 
   addOrder(){
     const orderFormData = this.orderFormGroup.value;
+    this.orders = orderFormData;
+    this.orderService.createOrder(orderFormData)
+      .subscribe(() => {
+        this.router.navigateByUrl('/');
+      });
+
     console.log('This is the name: ' + orderFormData.order);
   }
 
