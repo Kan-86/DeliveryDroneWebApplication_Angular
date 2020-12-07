@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { OrderService } from '../shared/service/order.service';
 import { OrderModel } from '../shared/models/order-model';
+import { DroneModel } from '../shared/models/drone-model';
+import { DroneService } from '../shared/service/drone.service';
 
 @Component({
   selector: 'app-orders',
@@ -13,18 +15,16 @@ import { OrderModel } from '../shared/models/order-model';
 export class OrdersComponent implements OnInit {
   // Account
   orderFormGroup: FormGroup;
-  // Username
-  usernameMinLength: number = environment.usernameMinLength;
-  usernameMaxLength: number = environment.usernameMaxLength;
-  // Password
-  passwordMinLength: number = environment.passwordMinLength;
-  passwordMaxLength: number = environment.passwordMaxLength;
   orders: OrderModel;
+  drone: DroneModel;
   today: Date;
+  carryingOrder: boolean;
+  droneId: number;
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private orderService: OrderService) {
+              private orderService: OrderService,
+              private droneService: DroneService) {
     this.orderFormGroup = new FormGroup({
       orderedItemId: new FormControl(''),
       deliveryAddress: new FormControl('')
@@ -32,12 +32,21 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.droneService.getDrones().subscribe(s => {
+      s.forEach(ord => {
+        if (!ord.carryingOrder){
+          this.droneId = ord.droneId;
+        }
+      });
+      });
   }
 
   addOrder(){
     this.today = new Date();
     const orderFormData = this.orderFormGroup.value;
     orderFormData.orderDate = this.today;
+    orderFormData.assignedDroneId = this.droneId;
+
     this.orderService.createOrder(orderFormData)
       .subscribe(() => {
         this.router.navigateByUrl('');
