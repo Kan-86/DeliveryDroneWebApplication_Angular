@@ -11,11 +11,11 @@
           <h1>Profile</h1>
           <h4 class="back">Orders</h4>
           <mat-form-field class="back">
-            <input class="form-control" type="username" matInput placeholder="Order">
+            <input class="form-control" type="number" matInput placeholder="Order" formControlName="orderedItemId">
           </mat-form-field>
           <h4>Address</h4>
           <mat-form-field>
-            <input class="form-control" type="email" matInput placeholder="Address">
+            <input class="form-control"  matInput placeholder="Address" formControlName="deliveryAddress">
           </mat-form-field>
         </div>
         <button mat-raised-button color="primary" type="submit">Add Order</button>

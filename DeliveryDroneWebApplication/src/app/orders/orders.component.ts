@@ -20,33 +20,28 @@ export class OrdersComponent implements OnInit {
   passwordMinLength: number = environment.passwordMinLength;
   passwordMaxLength: number = environment.passwordMaxLength;
   orders: OrderModel;
+  today: Date;
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private orderService: OrderService) {
     this.orderFormGroup = new FormGroup({
-      order: new FormControl(''),
-      address: new FormControl('')
+      orderedItemId: new FormControl(''),
+      deliveryAddress: new FormControl('')
     });
   }
 
   ngOnInit(): void {
-    // different validater for fields
-    this.orderFormGroup = this.fb.group({
-      order: ['', ],
-      address: ['', ]
-    });
   }
 
   addOrder(){
+    this.today = new Date();
     const orderFormData = this.orderFormGroup.value;
-    this.orders = orderFormData;
+    orderFormData.orderDate = this.today;
     this.orderService.createOrder(orderFormData)
       .subscribe(() => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('');
       });
-
-    console.log('This is the name: ' + orderFormData.order);
   }
 
 }

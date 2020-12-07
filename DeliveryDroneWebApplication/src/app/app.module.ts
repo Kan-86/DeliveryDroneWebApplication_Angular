@@ -11,6 +11,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    CommonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    FlexLayoutModule,
+    MatButtonModule
   ],
   bootstrap: [AppComponent]
 })

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OrderService {
 
-  apiUrl = 'https://localhost something something';
+  apiUrl = 'https://localhost:44395/api/v1/order';
   constructor(private http: HttpClient) { }
 
   createOrder(orderFormData: OrderModel){
