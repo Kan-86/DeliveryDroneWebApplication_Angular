@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { MatCardModule } from '@angular/material/card';
     MatCardModule,
     FlexLayoutModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatInputModule
   ],
   bootstrap: [AppComponent]
 })

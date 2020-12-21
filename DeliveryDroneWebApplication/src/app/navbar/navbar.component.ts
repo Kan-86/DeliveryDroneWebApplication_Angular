@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DroneModel } from '../shared/models/drone-model';
 import { DroneService } from '../shared/service/drone.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,11 @@ import { DroneService } from '../shared/service/drone.service';
 export class NavbarComponent implements OnInit {
   drones: DroneModel[];
   droneId: number;
-  selectedDrones: string;
+  selectedDrones = new FormControl('', Validators.required);
+
+  animalControl = new FormControl('', Validators.required);
+  selectFormControl = new FormControl('', Validators.required);
+
   constructor(private droneService: DroneService) { }
 
   ngOnInit(): void {
