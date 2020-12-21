@@ -38,7 +38,7 @@ export class OrdersComponent implements OnInit {
           this.droneId = ord.droneId;
         }
       });
-      });
+    });
   }
 
   addOrder(){
@@ -53,4 +53,11 @@ export class OrdersComponent implements OnInit {
       });
   }
 
+  getOrder(){
+    this.orderService.getOrder().subscribe(orders => {
+      orders.forEach(ord => {
+        console.log(ord.deliveryAddress);
+      })
+    });
+  }
 }

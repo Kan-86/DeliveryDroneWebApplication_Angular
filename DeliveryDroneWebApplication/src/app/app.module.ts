@@ -12,7 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
@@ -37,7 +37,8 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     MatCardModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   bootstrap: [AppComponent]
 })

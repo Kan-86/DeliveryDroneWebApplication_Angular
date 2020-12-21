@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { DroneModel } from '../shared/models/drone-model';
 
 @Component({
   selector: 'app-home-page',
@@ -8,6 +9,7 @@ import * as L from 'leaflet';
 })
 export class HomePageComponent implements OnInit {
   private map;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -19,7 +21,7 @@ export class HomePageComponent implements OnInit {
 
 
     this.map = L.map('map', {
-        center: [ 55.48775590896692, 8.446953715343545 ],
+      center: [ 55.48775590896692, 8.446953715343545 ],
       zoom: 10
     });
 
@@ -30,6 +32,6 @@ export class HomePageComponent implements OnInit {
     });
 
     tiles.addTo(this.map);
-
+    L.bringToBack()
   }
 }
