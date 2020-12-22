@@ -3,8 +3,8 @@ import * as L from 'leaflet';
 import { DroneModel } from '../shared/models/drone-model';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { DroneService } from '../shared/service/drone.service';
-import {OrderModel} from "../shared/models/order-model";
-import {OrderService} from "../shared/service/order.service";
+import {OrderModel} from '../shared/models/order-model';
+import {OrderService} from '../shared/service/order.service';
 
 @Component({
   selector: 'app-home-page',
@@ -24,6 +24,8 @@ export class HomePageComponent implements OnInit {
   droneMarker = null;
   deliveryMarker = null;
   polyline = null;
+  droneIcon = null;
+  deliveryIcon = null;
   constructor(private droneService: DroneService,
               private orderService: OrderService) { }
 
@@ -36,9 +38,8 @@ export class HomePageComponent implements OnInit {
     });
     this.initMap();
   }
-
-  onSelectedChange(value: number): void{
-    this.droneId = value;
+  assignLatLongValues(): void{
+    // Assign the lat and long values so we can use it later
     this.drones.forEach(d => {
       if (d.droneId === this.droneId){
         this.droneLong = d.long;
@@ -51,37 +52,45 @@ export class HomePageComponent implements OnInit {
         this.deliveryLat = o.deliveryAddressLat;
       }
     });
-    const droneIcon = L.icon({
+  }
+  createMarkerIcons(): void{
+    // We use the images for custom marker
+    this.droneIcon = L.icon({
       iconUrl: 'assets/img/droneIcon.png',
-
       iconSize:     [28, 28], // size of the icon
     });
-    const deliveryIcon = L.icon({
+    this.deliveryIcon = L.icon({
       iconUrl: 'assets/img/mailbox.png',
-
       iconSize:     [28, 28], // size of the icon
     });
+  }
+  onSelectedChange(value: number): void{
+    // Get the id of the selected drone
+    this.droneId = value;
+    this.assignLatLongValues();
+    this.createMarkerIcons();
+    // Make sure we remove the markers that we have added if there is already a marker on the map
     if (this.droneMarker !== null) {
       this.map.removeLayer(this.droneMarker);
       this.map.removeLayer(this.deliveryMarker);
       this.map.removeLayer(this.polyline);
     }
-    this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: droneIcon}).addTo(this.map);
-    this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: deliveryIcon}).addTo(this.map);
+    // Add the drone and deliveryAddress markers
+    this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: this.droneIcon}).addTo(this.map);
+    this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
 
-    const latlngs = Array();
+    const latLong = Array();
 
-    // Get latlng from first marker
-    latlngs.push(this.droneMarker.getLatLng());
+    // Get latLong from first marker
+    latLong.push(this.droneMarker.getLatLng());
 
-    // Get latlng from first marker
-    latlngs.push(this.deliveryMarker.getLatLng());
+    // Get latLong from first marker
+    latLong.push(this.deliveryMarker.getLatLng());
 
     // You can just keep adding markers
 
-    // From documentation http://leafletjs.com/reference.html#polyline
     // create a red polyline from an arrays of LatLng points
-    this.polyline = L.polyline(latlngs, {color: 'red'}).addTo(this.map);
+    this.polyline = L.polyline(latLong, {color: 'red'}).addTo(this.map);
 
     // zoom the map to the polyline
     this.map.fitBounds(this.polyline.getBounds());
@@ -92,16 +101,11 @@ export class HomePageComponent implements OnInit {
       center: [ 55.48775590896692, 8.446953715343545 ],
       zoom: 12
     });
-
-
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       minZoom: 1,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-
-
     tiles.addTo(this.map);
-    L.bringToBack();
   }
 }
