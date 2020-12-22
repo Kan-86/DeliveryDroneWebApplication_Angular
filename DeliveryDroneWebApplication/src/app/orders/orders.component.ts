@@ -37,27 +37,6 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  private async findLocation(address: string, addressNumber: string, zipCode: string): Promise<void> {
-    await this.orderService.getLocation(address, addressNumber, zipCode).subscribe(s => {
-      s.forEach(d => {
-        this.orderLat = d.lat;
-        this.orderLong = d.lon;
-
-        this.orderFormData.orderDate = this.today;
-        this.orderFormData.assignedDroneId = this.droneId;
-        this.orderFormData.deliveryAddressLong = this.orderLong;
-        this.orderFormData.deliveryAddressLat = this.orderLat;
-
-        this.orderService.createOrder(this.orderFormData).subscribe(() => {
-          // this.router.navigateByUrl('');
-        });
-      });
-    });
-    console.log('Hi ');
-
-    console.log('Hi ');
-  }
-
   ngOnInit(): void {
     this.findAvailableDrone();
   }
@@ -76,7 +55,24 @@ export class OrdersComponent implements OnInit {
     this.findAvailableDrone();
     this.today = new Date();
     this.orderFormData = this.orderFormGroup.value;
-    await this.findLocation(this.orderFormData.deliveryAddress, this.orderFormData.deliveryAddressNumber, this.orderFormData.deliveryZip);
+    await this.orderService.getLocation(this.orderFormData.deliveryAddress,
+      this.orderFormData.deliveryAddressNumber,
+      this.orderFormData.deliveryZip)
+      .subscribe(s => {
+      s.forEach(d => {
+        this.orderLat = d.lat;
+        this.orderLong = d.lon;
+
+        this.orderFormData.orderDate = this.today;
+        this.orderFormData.assignedDroneId = this.droneId;
+        this.orderFormData.deliveryAddressLong = this.orderLong;
+        this.orderFormData.deliveryAddressLat = this.orderLat;
+
+        this.orderService.createOrder(this.orderFormData).subscribe(() => {
+          this.router.navigateByUrl('');
+        });
+      });
+    });
   }
 
   getOrder(): void{
