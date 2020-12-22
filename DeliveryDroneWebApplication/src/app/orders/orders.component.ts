@@ -41,7 +41,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  addOrder(){
+  addOrder(): void{
     this.today = new Date();
     const orderFormData = this.orderFormGroup.value;
     orderFormData.orderDate = this.today;
@@ -53,11 +53,11 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  getOrder(){
+  getOrder(): void{
     this.orderService.getOrder().subscribe(orders => {
       orders.forEach(ord => {
         console.log(ord.deliveryAddress);
-      })
+      });
     });
   }
 }
