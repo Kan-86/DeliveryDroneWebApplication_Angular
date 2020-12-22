@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { DroneModel } from '../shared/models/drone-model';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { DroneService } from '../shared/service/drone.service';
 import {OrderModel} from '../shared/models/order-model';
 import {OrderService} from '../shared/service/order.service';
@@ -46,10 +45,13 @@ export class HomePageComponent implements OnInit {
         this.droneLat = d.lat;
       }
     });
+    console.log('what is the id: ' + this.droneId);
     this.orders.forEach(o => {
       if (o.assignedDroneId === this.droneId){
         this.deliveryLong = o.deliveryAddressLong;
         this.deliveryLat = o.deliveryAddressLat;
+        console.log('What is deliveryLat: ' + this.deliveryLat);
+        console.log('What is deliveryLong: ' + this.deliveryLong);
       }
     });
   }
