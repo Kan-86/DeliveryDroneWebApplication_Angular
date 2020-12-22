@@ -67,9 +67,21 @@ export class HomePageComponent implements OnInit {
   onSelectedChange(value: number): void{
     // Get the id of the selected drone
     this.droneId = value;
+    // use the order and drone location to
+    // assign values to lat long variables
     this.assignLatLongValues();
+    // use image from asset to create the marker icon
     this.createMarkerIcons();
-    // Make sure we remove the markers that we have added if there is already a marker on the map
+    // add the markers to the map using the lat long variables
+    this.addMarkerToMap();
+    // We want to compare the locations of drone and delivery address
+    // and draw a line between them
+    this.drawPolyLine();
+  }
+
+  private addMarkerToMap(): void{
+    // Make sure we remove the markers that we have added
+    // if there is already a marker on the map
     if (this.droneMarker !== null) {
       this.map.removeLayer(this.droneMarker);
       this.map.removeLayer(this.deliveryMarker);
@@ -78,20 +90,17 @@ export class HomePageComponent implements OnInit {
     // Add the drone and deliveryAddress markers
     this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: this.droneIcon}).addTo(this.map);
     this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
+  }
 
+  private drawPolyLine(): void{
     const latLong = Array();
-
     // Get latLong from first marker
     latLong.push(this.droneMarker.getLatLng());
-
     // Get latLong from first marker
     latLong.push(this.deliveryMarker.getLatLng());
-
     // You can just keep adding markers
-
     // create a red polyline from an arrays of LatLng points
     this.polyline = L.polyline(latLong, {color: 'red'}).addTo(this.map);
-
     // zoom the map to the polyline
     this.map.fitBounds(this.polyline.getBounds());
   }
