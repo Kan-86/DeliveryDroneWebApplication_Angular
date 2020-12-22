@@ -5,19 +5,9 @@
     <button mat-icon-button routerLink="/" class="example-icon" aria-label="Example icon-button with share icon">
       <mat-icon>home</mat-icon>
     </button>
-
-  <select   name="Drones"
-              [(ngModel)]="selectedDrones"
-              (ngModelChange)="onSelectedChange($event)">
-        <mat-option  *ngFor="let drone of drones"
-                [value]="drone.droneId">
-          {{drone.droneId}}
-        </mat-option>
-  </select>
-
-
-
-    <span>Delivery Drone Application</span>
+    <button mat-icon-button routerLink="/streaming" class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>linked_camera</mat-icon>
+    </button>
     <span class="example-spacer"></span>
     <button mat-icon-button routerLink="/orders" class="example-icon" aria-label="Example icon-button with share icon">
       <mat-icon>shopping-basket</mat-icon>

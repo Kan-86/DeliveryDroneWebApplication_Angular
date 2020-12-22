@@ -45,13 +45,10 @@ export class HomePageComponent implements OnInit {
         this.droneLat = d.lat;
       }
     });
-    console.log('what is the id: ' + this.droneId);
     this.orders.forEach(o => {
       if (o.assignedDroneId === this.droneId){
         this.deliveryLong = o.deliveryAddressLong;
         this.deliveryLat = o.deliveryAddressLat;
-        console.log('What is deliveryLat: ' + this.deliveryLat);
-        console.log('What is deliveryLong: ' + this.deliveryLong);
       }
     });
   }
