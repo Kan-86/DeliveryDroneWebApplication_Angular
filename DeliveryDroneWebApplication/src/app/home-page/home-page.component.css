@@ -1,12 +1,26 @@
 
 
 .map-container {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
+  top: 58px;
+  left: 20px;
   right: 0;
   bottom: 0;
   margin: 90px;
+  height: 520px;
+  width: 1300px;
+}
+
+
+.myPanelClass{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 0;
+  bottom: 0;
+  margin: 90px;
+  height: 520px;
+  width: 1300px;
 }
 
 .map-frame {
@@ -16,4 +30,8 @@
 
 #map {
   height: 100%;
+}
+
+.cdk-overlay-pane  {
+
 }

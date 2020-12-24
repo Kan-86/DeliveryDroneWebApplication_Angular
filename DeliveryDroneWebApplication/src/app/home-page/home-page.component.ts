@@ -56,11 +56,11 @@ export class HomePageComponent implements OnInit {
     // We use the images for custom marker
     this.droneIcon = L.icon({
       iconUrl: 'assets/img/droneIcon.png',
-      iconSize:     [28, 28], // size of the icon
+      iconSize:     [34, 34], // size of the icon
     });
     this.deliveryIcon = L.icon({
       iconUrl: 'assets/img/mailbox.png',
-      iconSize:     [28, 28], // size of the icon
+      iconSize:     [34, 34], // size of the icon
     });
   }
   onSelectedChange(value: number): void{
