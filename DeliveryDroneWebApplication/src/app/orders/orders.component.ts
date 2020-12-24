@@ -22,7 +22,6 @@ export class OrdersComponent implements OnInit {
   today: Date;
   carryingOrder: boolean;
   droneId: number;
-  orderAddress: string;
   result: any = [];
   orderFormData: any;
   constructor(private fb: FormBuilder,
@@ -43,9 +42,13 @@ export class OrdersComponent implements OnInit {
 
   private findAvailableDrone(): void{
     this.droneService.getDrones().subscribe(s => {
+      let count = 0; /* Just want to assign one drone*/
       s.forEach(ord => {
-        if (!ord.carryingOrder){
+        if (!ord.carryingOrder && count > 0){
+          count++;
           this.droneId = ord.droneId;
+          ord.carryingOrder = true;
+          this.droneService.updateDrone(ord);
         }
       });
     });

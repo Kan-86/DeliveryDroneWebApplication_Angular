@@ -10,7 +10,11 @@ export class DroneService {
   apiUrl = 'https://localhost:44395/api/v1/drone';
   constructor(private http: HttpClient) { }
 
-  getDrones() : Observable<DroneModel[]>{
+  getDrones(): Observable<DroneModel[]>{
     return this.http.get<DroneModel[]>(this.apiUrl);
+  }
+
+  updateDrone(droneModel: DroneModel): Observable<DroneModel>{
+    return this.http.put<DroneModel>(this.apiUrl + '/' + droneModel.droneId, droneModel);
   }
 }

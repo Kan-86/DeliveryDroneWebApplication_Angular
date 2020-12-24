@@ -4,6 +4,8 @@ import { DroneModel } from '../shared/models/drone-model';
 import { DroneService } from '../shared/service/drone.service';
 import {OrderModel} from '../shared/models/order-model';
 import {OrderService} from '../shared/service/order.service';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogDataComponent} from '../dialog-data/dialog-data.component';
 
 @Component({
   selector: 'app-home-page',
@@ -25,8 +27,10 @@ export class HomePageComponent implements OnInit {
   polyline = null;
   droneIcon = null;
   deliveryIcon = null;
+  carryingOrder: boolean;
   constructor(private droneService: DroneService,
-              private orderService: OrderService) { }
+              private orderService: OrderService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.droneService.getDrones().subscribe(s => {
@@ -43,6 +47,7 @@ export class HomePageComponent implements OnInit {
       if (d.droneId === this.droneId){
         this.droneLong = d.long;
         this.droneLat = d.lat;
+        this.carryingOrder = d.carryingOrder;
       }
     });
     this.orders.forEach(o => {
@@ -73,22 +78,28 @@ export class HomePageComponent implements OnInit {
     this.createMarkerIcons();
     // add the markers to the map using the lat long variables
     this.addMarkerToMap();
-    // We want to compare the locations of drone and delivery address
-    // and draw a line between them
-    this.drawPolyLine();
   }
 
   private addMarkerToMap(): void{
     // Make sure we remove the markers that we have added
     // if there is already a marker on the map
-    if (this.droneMarker !== null) {
+    if (this.droneMarker !== null && this.deliveryMarker !== null) {
       this.map.removeLayer(this.droneMarker);
       this.map.removeLayer(this.deliveryMarker);
       this.map.removeLayer(this.polyline);
     }
-    // Add the drone and deliveryAddress markers
-    this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: this.droneIcon}).addTo(this.map);
-    this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
+
+    if (this.carryingOrder){
+      // Add the drone and deliveryAddress markers
+      this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: this.droneIcon}).addTo(this.map);
+      this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
+      // We want to compare the locations of drone and delivery address
+      // and draw a line between them
+      this.drawPolyLine();
+    }
+    else{
+      this.openDialog();
+    }
   }
 
   private drawPolyLine(): void{
@@ -115,5 +126,12 @@ export class HomePageComponent implements OnInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
     tiles.addTo(this.map);
+  }
+  openDialog(): void {
+    this.dialog.open(DialogDataComponent, {
+      data: {
+        info: 'This drone is not carrying an order.'
+      }
+    });
   }
 }

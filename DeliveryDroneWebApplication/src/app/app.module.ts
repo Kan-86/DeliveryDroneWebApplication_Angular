@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import {RouterModule} from "@angular/router";
+import {RouterModule} from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import {NavbarComponent} from "./navbar/navbar.component";
+import {NavbarComponent} from './navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,12 +17,15 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { DialogDataComponent } from './dialog-data/dialog-data.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomePageComponent,
+    DialogDataComponent,
   ],
   imports: [
     HttpClientModule,
@@ -42,7 +45,8 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     FormsModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
   bootstrap: [AppComponent]
 })
