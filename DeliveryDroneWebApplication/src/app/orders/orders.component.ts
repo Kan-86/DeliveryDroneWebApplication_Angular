@@ -66,6 +66,9 @@ export class OrdersComponent implements OnInit {
         this.orderLat = d.lat;
         this.orderLong = d.lon;
 
+        this.orderFormData.deliveryAddress = this.orderFormData.deliveryAddress
+          + ' ' + this.orderFormData.deliveryAddressNumber
+          + ' ' + this.orderFormData.deliveryZip;
         this.orderFormData.orderDate = this.today;
         this.orderFormData.assignedDroneId = this.droneId;
         this.orderFormData.deliveryAddressLong = this.orderLong;
