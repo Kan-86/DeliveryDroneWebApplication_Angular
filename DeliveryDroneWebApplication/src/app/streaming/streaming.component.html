@@ -5,8 +5,6 @@
 <body>
 <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 <iframe width="1200" height="640" src="http://34.89.134.67/client" frameborder="2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
 <script>
   // 2. This code loads the IFrame Player API code asynchronously.
   var tag = document.createElement('script');
@@ -49,5 +47,13 @@
     player.stopVideo();
   }
 </script>
+
+<div class="map-container">
+  <button (mousedown)="SendInputToDroneSimulation('Up')" (mouseup)="SendInputToDroneSimulation('Up')" >Up</button>
+  <button (mousedown)="SendInputToDroneSimulation('Down')" (mouseup)="SendInputToDroneSimulation('Down')">Down</button>
+  <button (mousedown)="SendInputToDroneSimulation('Forward')" (mouseup)="SendInputToDroneSimulation('Forward')">Forward</button>
+  <button (mousedown)="SendInputToDroneSimulation('Left')" (mouseup)="SendInputToDroneSimulation('Left')">Left</button>
+  <button (mousedown)="SendInputToDroneSimulation('Right')" (mouseup)="SendInputToDroneSimulation('Right')">Right</button>
+</div>
 </body>
 </html>

@@ -16,7 +16,7 @@ export const environment = {
   // date
   minDate: new Date(),
   maxDate: new Date(new Date().setMonth(new Date().getMonth() + 60)),
-  startDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
+  startDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
 };
 
 /*

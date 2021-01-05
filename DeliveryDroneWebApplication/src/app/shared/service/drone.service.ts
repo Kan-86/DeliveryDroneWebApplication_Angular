@@ -17,4 +17,8 @@ export class DroneService {
   updateDrone(droneModel: DroneModel): Observable<DroneModel>{
     return this.http.put<DroneModel>(this.apiUrl + '/' + droneModel.droneId, droneModel);
   }
+
+  sendDirectionalInputToDrone(message: string): Observable<boolean>{
+    return this.http.post<boolean>(this.apiUrl + '/' + 'SendMessageToDrone?message=' + message, null);
+  }
 }
