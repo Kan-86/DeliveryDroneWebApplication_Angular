@@ -28,6 +28,7 @@ export class HomePageComponent implements OnInit {
   droneIcon = null;
   deliveryIcon = null;
   carryingOrder: boolean;
+  liveCoords: string;
   constructor(private droneService: DroneService,
               private orderService: OrderService,
               public dialog: MatDialog) { }
@@ -40,6 +41,7 @@ export class HomePageComponent implements OnInit {
       this.orders = o;
     });
     this.initMap();
+    this.getTheLiveCoordsFromBroker();
   }
   assignLatLongValues(): void{
     // Assign the lat and long values so we can use it later
@@ -133,5 +135,10 @@ export class HomePageComponent implements OnInit {
         info: 'This drone is not carrying an order.'
       }
     });
+  }
+
+  getTheLiveCoordsFromBroker(): void{
+    console.log('Does something happen???');
+    const coords = this.droneService.getLiveCoordsFromBroker();
   }
 }

@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DroneModel } from '../models/drone-model';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
+import {IMqttMessage, MqttService} from 'ngx-mqtt';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DroneService {
   apiUrl = 'https://localhost:44395/api/v1/drone';
-  constructor(private http: HttpClient) { }
+  private subscription: Subscription;
+  private message: any;
+
+  constructor(private http: HttpClient,
+              private mqttService: MqttService) {
+
+  }
 
   getDrones(): Observable<DroneModel[]>{
     return this.http.get<DroneModel[]>(this.apiUrl);
@@ -18,7 +27,15 @@ export class DroneService {
     return this.http.put<DroneModel>(this.apiUrl + '/' + droneModel.droneId, droneModel);
   }
 
-  sendDirectionalInputToDrone(message: string): Observable<boolean>{
+  sendDirectionalInputToDrone(message: string): Observable<boolean> {
     return this.http.post<boolean>(this.apiUrl + '/' + 'SendMessageToDrone?message=' + message, null);
+  }
+
+  public getLiveCoordsFromBroker(): any {
+    this.subscription = this.mqttService.observe('topic/drones').subscribe((msg: IMqttMessage) => {
+      this.message = msg.payload.toString();
+      console.log('The real coords: ' + msg.payload);
+    });
+    return this.message;
   }
 }

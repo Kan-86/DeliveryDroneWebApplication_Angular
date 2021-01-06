@@ -18,7 +18,15 @@ import { MatCardModule } from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { DialogDataComponent } from './dialog-data/dialog-data.component';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from '@angular/material/dialog';
+import {IMqttMessage, IMqttServiceOptions} from 'ngx-mqtt/lib/mqtt.model';
+import {MqttModule} from 'ngx-mqtt';
+
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: '46.101.125.210',
+  port: 8883,
+  path: '/mqtt'
+};
 
 @NgModule({
   declarations: [
@@ -28,6 +36,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     DialogDataComponent,
   ],
   imports: [
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     HttpClientModule,
     BrowserModule,
     RouterModule,
@@ -46,7 +55,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     FormsModule,
     MatSelectModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MqttModule,
+
   ],
   bootstrap: [AppComponent]
 })
