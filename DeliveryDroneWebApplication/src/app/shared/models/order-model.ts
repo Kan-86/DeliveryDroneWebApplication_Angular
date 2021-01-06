@@ -1,6 +1,6 @@
 export interface OrderModel{
   orderId: number;
-  assignedDroneId: number;
+  assignedDroneId: string;
   orderedItemId: number;
   orderDate: Date;
   deliveryAddress: string;

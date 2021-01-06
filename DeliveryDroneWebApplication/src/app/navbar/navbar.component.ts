@@ -10,7 +10,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
   drones: DroneModel[];
-  droneId: number;
+  droneId: string;
   selectedDrones = new FormControl('', Validators.required);
 
   animalControl = new FormControl('', Validators.required);
@@ -23,16 +23,17 @@ export class NavbarComponent implements OnInit {
       this.drones = s;
     });
   }
-  onSelectedChange(value: number){
+
+  onSelectedChange(value: string): void{
     console.log('We selected something');
     console.log(value);
     this.droneId = value;
 
     this.drones.forEach(d => {
-      if(d.droneId == this.droneId){
+      if (d.droneId === this.droneId){
         console.log('The selected droneId is ' + d.droneId);
       }
-    })
+    });
 
   }
 }

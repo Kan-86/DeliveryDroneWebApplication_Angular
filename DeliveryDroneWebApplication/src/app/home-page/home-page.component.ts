@@ -14,13 +14,13 @@ import {DialogDataComponent} from '../dialog-data/dialog-data.component';
 })
 export class HomePageComponent implements OnInit {
   private map;
-  droneLat: number;
-  droneLong: number;
+  droneLat: string;
+  droneLong: string;
   deliveryLat: number;
   deliveryLong: number;
   drones: DroneModel[];
   orders: OrderModel[];
-  droneId: number;
+  droneId: string;
   selectedDrones: string;
   droneMarker = null;
   deliveryMarker = null;
@@ -70,7 +70,7 @@ export class HomePageComponent implements OnInit {
       iconSize:     [34, 34], // size of the icon
     });
   }
-  onSelectedChange(value: number): void{
+  onSelectedChange(value: string): void{
     // Get the id of the selected drone
     this.droneId = value;
     // use the order and drone location to
@@ -144,6 +144,6 @@ export class HomePageComponent implements OnInit {
 
   onClickMe(): void {
     const coords = this.droneService.unsubscribeFromBroker();
-    console.log('coords: ' + coords.droneId);
+    console.log('coords: ' + coords.orderId);
   }
 }

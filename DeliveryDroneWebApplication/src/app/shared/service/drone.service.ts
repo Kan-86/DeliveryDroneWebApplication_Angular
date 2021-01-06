@@ -34,6 +34,21 @@ export class DroneService {
   public getLiveCoordsFromBroker(): void {
     this.subscription = this.mqttService.observe('topic/drones').subscribe((msg: IMqttMessage) => {
       this.drone = JSON.parse(msg.payload.toString());
+      // console.log('drone Coords: ' + msg.payload.toString());
+      const splitMessage = msg.payload.toString().split(',', 15);
+
+      const lat = splitMessage[1];
+      const assignedOrder = splitMessage[4];
+      const droneId = splitMessage[8];
+      const long = splitMessage[10];
+
+
+      this.drone.droneId = droneId;
+      this.drone.lat = lat;
+      this.drone.long = long;
+      this.drone.orderId = assignedOrder;
+
+
     });
   }
 

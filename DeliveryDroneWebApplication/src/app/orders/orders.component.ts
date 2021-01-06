@@ -21,7 +21,7 @@ export class OrdersComponent implements OnInit {
   orderLong: number;
   today: Date;
   carryingOrder: boolean;
-  droneId: number;
+  droneId: string;
   result: any = [];
   orderFormData: any;
   constructor(private fb: FormBuilder,
