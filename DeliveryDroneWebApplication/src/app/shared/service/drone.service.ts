@@ -13,7 +13,7 @@ export class DroneService {
   apiUrl = 'https://localhost:44395/api/v1/drone';
   private subscription: Subscription;
   private message: any;
-
+  private drone: DroneModel;
   constructor(private http: HttpClient,
               private mqttService: MqttService) {
 
@@ -31,11 +31,13 @@ export class DroneService {
     return this.http.post<boolean>(this.apiUrl + '/' + 'SendMessageToDrone?message=' + message, null);
   }
 
-  public getLiveCoordsFromBroker(): any {
+  public getLiveCoordsFromBroker(): void {
     this.subscription = this.mqttService.observe('topic/drones').subscribe((msg: IMqttMessage) => {
-      this.message = msg.payload.toString();
-      console.log('The real coords: ' + msg.payload);
+      this.drone = JSON.parse(msg.payload.toString());
     });
-    return this.message;
+  }
+
+  public unsubscribeFromBroker(): DroneModel {
+    return this.drone;
   }
 }

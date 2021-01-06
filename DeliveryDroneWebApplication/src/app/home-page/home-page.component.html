@@ -1,15 +1,9 @@
-<div>
-  <mat-form-field appearance="fill" class="myPanelClass">
-    <mat-label>Select a Drone</mat-label>
-    <mat-select
-      [(ngModel)]="selectedDrones"
-      (ngModelChange)="onSelectedChange($event)">
-      <mat-option *ngFor="let drone of drones"
-                  [value]="drone.droneId">
-        Drone Id: {{drone.droneId}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+
+
+<div class="asdasdsa">
+  <button (click)="onClickMe()">
+    click here!
+  </button>
 </div>
 <div class="map-container">
   <div class="map-frame">

@@ -11,6 +11,16 @@
   width: 1300px;
 }
 
+.asdasdsa{
+  position: relative;
+  top: 0;
+  left: 20px;
+  right: 0;
+  bottom: 0;
+  margin: 90px;
+  height: 520px;
+  width: 1300px;
+}
 
 .myPanelClass{
   position: absolute;

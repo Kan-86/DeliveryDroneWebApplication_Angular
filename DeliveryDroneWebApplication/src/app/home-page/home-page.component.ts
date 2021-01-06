@@ -139,6 +139,11 @@ export class HomePageComponent implements OnInit {
 
   getTheLiveCoordsFromBroker(): void{
     console.log('Does something happen???');
-    const coords = this.droneService.getLiveCoordsFromBroker();
+    this.droneService.getLiveCoordsFromBroker();
+  }
+
+  onClickMe(): void {
+    const coords = this.droneService.unsubscribeFromBroker();
+    console.log('coords: ' + coords.droneId);
   }
 }
