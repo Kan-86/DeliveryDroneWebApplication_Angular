@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {DialogDataComponent} from '../dialog-data/dialog-data.component';
 import {Observable} from 'rxjs';
 import { timer } from 'rxjs';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -99,6 +100,18 @@ export class HomePageComponent implements OnInit {
     this.deliveryLat = d.droneDestinationLat;
     this.deliveryLong = d.droneDestinationLong;
   }
+
+  updateRealTime(): void {
+    if (this.drones != null) {
+      interval(3000).subscribe(() =>
+        this.assignLatLongValues(this.droneLiveCoords())
+      );
+      interval(1000).subscribe(() =>
+        this.addMarkerToMap()
+      );
+    }
+  }
+
   createMarkerIcons(): void{
     // We use the images for custom marker
     this.droneIcon = L.icon({
@@ -122,6 +135,9 @@ export class HomePageComponent implements OnInit {
     this.createMarkerIcons();
     // add the markers to the map using the lat long variables
     this.addMarkerToMap();
+
+    // Live update
+    this.updateRealTime();
   }
 
   private addMarkerToMap(): void{
