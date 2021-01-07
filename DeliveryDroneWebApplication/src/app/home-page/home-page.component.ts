@@ -33,6 +33,7 @@ export class HomePageComponent implements OnInit {
   deliveryIcon = null;
   carryingOrder: boolean;
   ticks = 0;
+
   constructor(private droneService: DroneService,
               private orderService: OrderService,
               public dialog: MatDialog) { }
@@ -58,7 +59,6 @@ export class HomePageComponent implements OnInit {
     }, 1500);
   }
 
-
   updateDroneOrderCoords(): void {
     const drone = this.droneLiveCoords();
     this.drones.push(drone);
@@ -71,7 +71,8 @@ export class HomePageComponent implements OnInit {
      * This assumes that multiple drones are working at the same time
      * As well as the proper -- Order -> Delivery -> Destination --
      * System is fully implemented, which it isn't in this prototype.
-     *
+     */
+    /*
     this.drones.forEach(d => {
       if (d.droneId === this.droneId){
         this.droneLong = d.long;
@@ -90,8 +91,8 @@ export class HomePageComponent implements OnInit {
       }
       this.deliveryLong = o.deliveryAddressLong;
       this.deliveryLat = o.deliveryAddressLat;
-    });
-    **/
+    });*/
+
     this.droneLat = d.droneLat;
     this.droneLong = d.droneLong;
     this.carryingOrder = d.droneOrderId;
@@ -192,10 +193,5 @@ export class HomePageComponent implements OnInit {
   droneLiveCoords(): DroneModel {
     this.drone = this.droneService.getLiveDroneFromBroker();
     return this.drone;
-  }
-
-  orderLiveCoords(): OrderModel {
-    this.order = this.droneService.getLiveOrderFromBroker();
-    return this.order;
   }
 }
