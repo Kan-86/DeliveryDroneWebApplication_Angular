@@ -9,4 +9,6 @@ export interface DroneModel{
   satelites: number;
   carryingOrder: boolean;
   orderId: string;
+  destinationLat: string;
+  destinationLong: string;
 }

@@ -13,10 +13,10 @@ export class DroneService {
   apiUrl = 'https://localhost:44395/api/v1/drone';
   private subscription: Subscription;
   private message: any;
-  private drone: DroneModel;
+  private droneTest: any;
+  private drone: any;
   constructor(private http: HttpClient,
               private mqttService: MqttService) {
-
   }
 
   getDrones(): Observable<DroneModel[]>{
@@ -34,22 +34,16 @@ export class DroneService {
   public getLiveCoordsFromBroker(): void {
     this.subscription = this.mqttService.observe('topic/drones').subscribe((msg: IMqttMessage) => {
       this.drone = JSON.parse(msg.payload.toString());
-      // console.log('drone Coords: ' + msg.payload.toString());
-      const splitMessage = msg.payload.toString().split(',', 15);
-
-      const lat = splitMessage[1];
-      const assignedOrder = splitMessage[4];
-      const droneId = splitMessage[8];
-      const long = splitMessage[10];
-
-
-      this.drone.droneId = droneId;
-      this.drone.lat = lat;
-      this.drone.long = long;
-      this.drone.orderId = assignedOrder;
-
-
+      this.droneTest = {
+        droneId: this.drone.DroneId,
+        droneLat: this.drone.Lat,
+        droneLong: this.drone.Long,
+        droneOrderId: this.drone.AssignedOrder,
+        droneDestinationLat: this.drone.DestinationLat,
+        droneDestinationLong: this.drone.DestinationLong
+      };
     });
+    return this.droneTest;
   }
 
   public unsubscribeFromBroker(): DroneModel {

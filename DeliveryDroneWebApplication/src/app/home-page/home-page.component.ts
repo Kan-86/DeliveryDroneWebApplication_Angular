@@ -16,8 +16,8 @@ export class HomePageComponent implements OnInit {
   private map;
   droneLat: string;
   droneLong: string;
-  deliveryLat: number;
-  deliveryLong: number;
+  deliveryLat: string;
+  deliveryLong: string;
   drones: DroneModel[];
   orders: OrderModel[];
   droneId: string;
@@ -43,21 +43,36 @@ export class HomePageComponent implements OnInit {
     this.initMap();
     this.getTheLiveCoordsFromBroker();
   }
-  assignLatLongValues(): void{
+  assignLatLongValues(d: any): void{
     // Assign the lat and long values so we can use it later
+    /**
+     * This is all fine and good, but for the current test setup it wont work
+     * This assumes that multiple drones are working at the same time
+     * As well as the proper -- Order -> Delivery -> Destination --
+     * System is fully implemented, which it isn't in this prototype.
+     *
     this.drones.forEach(d => {
       if (d.droneId === this.droneId){
         this.droneLong = d.long;
         this.droneLat = d.lat;
         this.carryingOrder = d.carryingOrder;
+        this.deliveryLat = d.destinationLat;
+        this.deliveryLong = d.destinationLong;
       }
     });
     this.orders.forEach(o => {
-      if (o.assignedDroneId === this.droneId){
-        this.deliveryLong = o.deliveryAddressLong;
-        this.deliveryLat = o.deliveryAddressLat;
+      if (o.assignedDroneId.toString() === this.droneId){
+        console.log(this.deliveryLong);
+        // this.deliveryLong = o.deliveryAddressLong.toString();
+        // this.deliveryLat = o.deliveryAddressLat.toString();
       }
     });
+    **/
+    this.droneLat = d.droneLat;
+    this.droneLong = d.droneLong;
+    this.carryingOrder = d.droneOrderId;
+    this.deliveryLat = d.droneDestinationLat;
+    this.deliveryLong = d.droneDestinationLong;
   }
   createMarkerIcons(): void{
     // We use the images for custom marker
@@ -73,9 +88,11 @@ export class HomePageComponent implements OnInit {
   onSelectedChange(value: string): void{
     // Get the id of the selected drone
     this.droneId = value;
+
+    const drone = this.getTheLiveCoordsFromBroker();
     // use the order and drone location to
     // assign values to lat long variables
-    this.assignLatLongValues();
+    this.assignLatLongValues(drone);
     // use image from asset to create the marker icon
     this.createMarkerIcons();
     // add the markers to the map using the lat long variables
@@ -94,7 +111,7 @@ export class HomePageComponent implements OnInit {
     if (this.carryingOrder){
       // Add the drone and deliveryAddress markers
       this.droneMarker = new L.marker([this.droneLat,   this.droneLong], {icon: this.droneIcon}).addTo(this.map);
-      this.deliveryMarker = new L.marker([this.deliveryLat,   this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
+      this.deliveryMarker = new L.marker([this.deliveryLat, this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
       // We want to compare the locations of drone and delivery address
       // and draw a line between them
       this.drawPolyLine();
@@ -138,8 +155,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getTheLiveCoordsFromBroker(): void{
-    console.log('Does something happen???');
-    this.droneService.getLiveCoordsFromBroker();
+    const currentDrone = this.droneService.getLiveCoordsFromBroker();
+    return currentDrone;
   }
 
   onClickMe(): void {

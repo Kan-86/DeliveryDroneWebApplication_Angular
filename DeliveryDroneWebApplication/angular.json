@@ -122,5 +122,8 @@
       }
     }
   },
-  "defaultProject": "DeliveryDroneWebApplication"
+  "defaultProject": "DeliveryDroneWebApplication",
+  "cli": {
+    "analytics": false
+  }
 }
