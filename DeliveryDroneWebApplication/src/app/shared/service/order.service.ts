@@ -26,8 +26,7 @@ export class OrderService {
       const lat = orderFormData.deliveryAddressLat;
       const long = orderFormData.deliveryAddressLong;
 
-      this.http.post<any>(this.apiUrl2 + '?message=' + '{"ToLat": ' + lat + ', "ToLong":' + long + '}', null);
-      return returnedOrder;
+      return this.http.post<any>(this.apiUrl2 + '?message=' + '{"ToLat": ' + lat + ', "ToLong":' + long + '}', null);
   }
 
   private extractData(res: Response): any {
