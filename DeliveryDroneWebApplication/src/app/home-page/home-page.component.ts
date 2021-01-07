@@ -43,9 +43,9 @@ export class HomePageComponent implements OnInit {
     /*this.droneService.getDrones().subscribe(s => {
       this.drones = s;
     });*/
-    this.orderService.getOrder().subscribe(o => {
+    /*this.orderService.getOrder().subscribe(o => {
       this.orders = o;
-    });
+    });*/
     this.subscribeToDroneFromBroker();
     this.initMap();
     this.stateChange();
@@ -64,6 +64,7 @@ export class HomePageComponent implements OnInit {
     const drone = this.droneLiveCoords();
     this.drones.push(drone);
   }
+
   assignLatLongValues(d: any): void{
 
     // Assign the lat and long values so we can use it later
@@ -126,7 +127,6 @@ export class HomePageComponent implements OnInit {
   onSelectedChange(value: string): void{
     // Get the id of the selected drone
     this.droneId = value;
-
     const drone = this.getTheLiveCoordsFromBroker();
     // use the order and drone location to
     // assign values to lat long variables
@@ -135,7 +135,6 @@ export class HomePageComponent implements OnInit {
     this.createMarkerIcons();
     // add the markers to the map using the lat long variables
     this.addMarkerToMap();
-
     // Live update
     this.updateRealTime();
   }
@@ -155,8 +154,6 @@ export class HomePageComponent implements OnInit {
       this.deliveryMarker = new L.marker([this.deliveryLat, this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
       // We want to compare the locations of drone and delivery address
       // and draw a line between them
-
-
       this.drawPolyLine();
     }
     else{

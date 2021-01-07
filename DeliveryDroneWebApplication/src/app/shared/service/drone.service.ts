@@ -48,5 +48,9 @@ export class DroneService {
   public getLiveDroneFromBroker(): DroneModel {
     return this.droneTest;
   }
+
+  public unsubscribeFromBroker(): void {
+    this.subscription.unsubscribe();
+  }
 }
 

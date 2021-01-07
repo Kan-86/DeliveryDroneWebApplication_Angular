@@ -41,8 +41,8 @@ export class OrdersComponent implements OnInit {
   }
 
   private findAvailableDrone(): void{
-    this.droneService.getDrones().subscribe(s => {
-      let count = 0; /* Just want to assign one drone*/
+    /*this.droneService.getDrones().subscribe(s => {
+      let count = 0; /* Just want to assign one drone
       s.forEach(ord => {
         if (!ord.carryingOrder && count > 0){
           count++;
@@ -51,7 +51,13 @@ export class OrdersComponent implements OnInit {
           this.droneService.updateDrone(ord);
         }
       });
-    });
+    });*/
+    const drone = this.droneService.getLiveDroneFromBroker();
+    if (drone != null){
+      this.droneId = drone.droneId;
+      drone.carryingOrder = true;
+      this.droneService.updateDrone(drone);
+    }
   }
 
   async addOrder(): Promise<void>{

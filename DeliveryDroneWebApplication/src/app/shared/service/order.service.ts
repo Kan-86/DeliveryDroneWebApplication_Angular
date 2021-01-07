@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderModel } from '../models/order-model';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
 
 // Set the http options
 const httpOptions = {
@@ -16,12 +16,25 @@ export class OrderService {
   streetMaps = 'https://nominatim.openstreetmap.org/search?q=';
   streetMapsDetail = '&format=json&addressdetails=1';
   apiUrl = 'https://localhost:44395/api/v1/order';
+  apiUrl2 = 'https://localhost:44395/api/v1/Drone/SendMessageWithFlyToLatLongRPi/';
+
   constructor(private http: HttpClient) { }
 
   createOrder(orderFormData: OrderModel): Observable<any>{
-      return this.http.post<OrderModel>(this.apiUrl, orderFormData);
+      const returnedOrder = this.http.post<OrderModel>(this.apiUrl, orderFormData);
+      const newOrderModel = {
+        ToLat: orderFormData.deliveryAddressLat,
+        ToLong: orderFormData.deliveryAddressLong
+      };
+      const lat = orderFormData.deliveryAddressLat;
+      const long = orderFormData.deliveryAddressLong;
+      const latAddParams = new URLSearchParams();
+      // latAddParams.append('message', '{"ToLat": ' + lat + ', "ToLong":' + long + '}');
+
+      return this.http.post<any>(this.apiUrl2 + '?message=' + '{"ToLat": ' + lat + ', "ToLong":' + long + '}', null);
   }
-  private extractData(res: Response) {
+
+  private extractData(res: Response): any {
     const body = res;
     return body || {};
   }
