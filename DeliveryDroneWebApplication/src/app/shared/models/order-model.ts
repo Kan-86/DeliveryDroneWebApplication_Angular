@@ -1,11 +1,11 @@
 export interface OrderModel{
-  orderId: number;
+  orderId: string;
   assignedDroneId: string;
   orderedItemId: number;
   orderDate: Date;
   deliveryAddress: string;
-  deliveryAddressLat: number;
-  deliveryAddressLong: number;
+  deliveryAddressLat: string;
+  deliveryAddressLong: string;
   pickupLocation: string;
   pickupLocationLat: number;
   pickupLocationLong: number;

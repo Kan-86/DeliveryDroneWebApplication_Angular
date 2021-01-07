@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import * as L from 'leaflet';
 import { DroneModel } from '../shared/models/drone-model';
 import { DroneService } from '../shared/service/drone.service';
@@ -6,6 +6,8 @@ import {OrderModel} from '../shared/models/order-model';
 import {OrderService} from '../shared/service/order.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogDataComponent} from '../dialog-data/dialog-data.component';
+import {Observable} from 'rxjs';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -18,8 +20,10 @@ export class HomePageComponent implements OnInit {
   droneLong: string;
   deliveryLat: string;
   deliveryLong: string;
-  drones: DroneModel[];
-  orders: OrderModel[];
+  drones: DroneModel[] = [];
+  orders: OrderModel[] = [];
+  drone: DroneModel;
+  order: OrderModel;
   droneId: string;
   selectedDrones: string;
   droneMarker = null;
@@ -28,22 +32,42 @@ export class HomePageComponent implements OnInit {
   droneIcon = null;
   deliveryIcon = null;
   carryingOrder: boolean;
-  liveCoords: string;
+  ticks = 0;
   constructor(private droneService: DroneService,
               private orderService: OrderService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.droneService.getDrones().subscribe(s => {
+    /*this.droneService.getDrones().subscribe(s => {
       this.drones = s;
-    });
+    });*/
     this.orderService.getOrder().subscribe(o => {
       this.orders = o;
     });
+    this.subscribeToDroneFromBroker();
     this.initMap();
-    this.getTheLiveCoordsFromBroker();
+    this.stateChange();
+  }
+
+  stateChange(): void {
+    setTimeout(() => {
+      console.log('sleep');
+      if (this.drone !== null){
+        this.updateDroneOrderCoords();
+      }
+    }, 1000);
+  }
+
+
+  updateDroneOrderCoords(): void {
+
+    const order = this.orderLiveCoords();
+    // this.orders.push(order);
+    const drone = this.droneLiveCoords();
+    this.drones.push(drone);
   }
   assignLatLongValues(d: any): void{
+
     // Assign the lat and long values so we can use it later
     /**
      * This is all fine and good, but for the current test setup it wont work
@@ -60,12 +84,15 @@ export class HomePageComponent implements OnInit {
         this.deliveryLong = d.destinationLong;
       }
     });
+
     this.orders.forEach(o => {
       if (o.assignedDroneId.toString() === this.droneId){
         console.log(this.deliveryLong);
         // this.deliveryLong = o.deliveryAddressLong.toString();
         // this.deliveryLat = o.deliveryAddressLat.toString();
       }
+      this.deliveryLong = o.deliveryAddressLong;
+      this.deliveryLat = o.deliveryAddressLat;
     });
     **/
     this.droneLat = d.droneLat;
@@ -114,6 +141,8 @@ export class HomePageComponent implements OnInit {
       this.deliveryMarker = new L.marker([this.deliveryLat, this.deliveryLong], {icon: this.deliveryIcon}).addTo(this.map);
       // We want to compare the locations of drone and delivery address
       // and draw a line between them
+
+
       this.drawPolyLine();
     }
     else{
@@ -146,6 +175,7 @@ export class HomePageComponent implements OnInit {
     });
     tiles.addTo(this.map);
   }
+
   openDialog(): void {
     this.dialog.open(DialogDataComponent, {
       data: {
@@ -154,13 +184,21 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  getTheLiveCoordsFromBroker(): void{
-    const currentDrone = this.droneService.getLiveCoordsFromBroker();
+  getTheLiveCoordsFromBroker(): any {
+    const currentDrone = this.droneService.getLiveDroneFromBroker();
     return currentDrone;
   }
+  subscribeToDroneFromBroker(): void{
+    this.droneService.initializeSubscribeToDroneTopic();
+  }
 
-  onClickMe(): void {
-    const coords = this.droneService.unsubscribeFromBroker();
-    console.log('coords: ' + coords.orderId);
+  droneLiveCoords(): DroneModel {
+    this.drone = this.droneService.getLiveDroneFromBroker();
+    return this.drone;
+  }
+
+  orderLiveCoords(): OrderModel {
+    this.order = this.droneService.getLiveOrderFromBroker();
+    return this.order;
   }
 }
