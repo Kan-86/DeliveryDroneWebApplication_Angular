@@ -22,16 +22,12 @@ export class OrderService {
 
   createOrder(orderFormData: OrderModel): Observable<any>{
       const returnedOrder = this.http.post<OrderModel>(this.apiUrl, orderFormData);
-      const newOrderModel = {
-        ToLat: orderFormData.deliveryAddressLat,
-        ToLong: orderFormData.deliveryAddressLong
-      };
+
       const lat = orderFormData.deliveryAddressLat;
       const long = orderFormData.deliveryAddressLong;
-      const latAddParams = new URLSearchParams();
-      // latAddParams.append('message', '{"ToLat": ' + lat + ', "ToLong":' + long + '}');
 
-      return this.http.post<any>(this.apiUrl2 + '?message=' + '{"ToLat": ' + lat + ', "ToLong":' + long + '}', null);
+      this.http.post<any>(this.apiUrl2 + '?message=' + '{"ToLat": ' + lat + ', "ToLong":' + long + '}', null);
+      return returnedOrder;
   }
 
   private extractData(res: Response): any {
