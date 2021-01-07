@@ -48,8 +48,5 @@ export class DroneService {
   public getLiveDroneFromBroker(): DroneModel {
     return this.droneTest;
   }
-  public getLiveOrderFromBroker(): OrderModel {
-    return this.order;
-  }
 }
 

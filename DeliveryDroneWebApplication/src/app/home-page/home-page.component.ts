@@ -55,14 +55,11 @@ export class HomePageComponent implements OnInit {
       if (this.drone !== null){
         this.updateDroneOrderCoords();
       }
-    }, 1000);
+    }, 1500);
   }
 
 
   updateDroneOrderCoords(): void {
-
-    const order = this.orderLiveCoords();
-    // this.orders.push(order);
     const drone = this.droneLiveCoords();
     this.drones.push(drone);
   }
